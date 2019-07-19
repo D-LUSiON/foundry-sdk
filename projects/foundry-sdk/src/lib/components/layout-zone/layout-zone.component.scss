@@ -1,0 +1,33 @@
+::ng-deep {
+    .resizer-handle {
+        position: absolute;
+        z-index: 10000;
+        background-color: var(--zone-handle-bg-color);
+        border-width: var(--zone-handle-border-width);
+        border-style: var(--zone-handle-border-style);
+        border-color: var(--zone-handle-border-color);
+    }
+
+    .resizer-handle-visible {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .1s linear;
+    }
+
+    .resizer-handle-hidden {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility .5s 1s, opacity 1s linear;
+    }
+}
+
+:host-context(fnd-layout-zone) {
+    display: flex;
+    overflow: auto;
+    word-break: break-all;
+    background-color: var(--zone-bg-color);
+    color: var(--zone-text-color);
+    border-width: 0;
+    border-style: var(--zone-border-style);
+    border-color: var(--zone-border-color);
+}

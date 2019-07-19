@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+fnd-layout-zone[role="main"],
+fnd-layout-zone[role="more"] {
+    background-color: #1e1e1e;
+}
+
+fnd-layout-zone[role="sidebar"],
+fnd-layout-zone[role="aside"] {
+    background-color: #252526;
+}

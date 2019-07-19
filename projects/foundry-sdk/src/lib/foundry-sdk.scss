@@ -1,0 +1,112 @@
+@mixin flexible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+}
+:root {
+    --color-light: #f4f5f8;
+    --color-light-tint: #f5f6f9;
+    --color-light-shade: #d7d8da;
+    --color-light-contrast: #222222;
+    --color-light-contrast-shade: #1e1e1e;
+    --color-light-contrast-tint: #383838;
+
+    --color-dark: #43494b;
+    --color-dark-tint: #62676b;
+    --color-dark-shade: #303334;
+    --color-dark-contrast: #f0f0f0;
+    --color-dark-contrast-shade: #d3d3d3;
+    --color-dark-contrast-tint: #ffffff;
+
+    --wrapper-light-bg-color: var(--color-light);
+    --wrapper-light-text-color: var(--color-light-contrast);
+
+    --wrapper-dark-bg-color: var(--color-dark);
+    --wrapper-dark-text-color: var(--color-dark-contrast);
+
+    --zone-light-border-color: var(--color-light-shade);
+    --zone-dark-border-color: var(--color-dark-shade);
+
+    --zone-handle-light-bg-image: url();
+    --zone-handle-light-bg-color: var(--color-light-shade);
+    --zone-handle-light-color: var(--color-light-contrast);
+    --zone-handle-light-border-width: 1px;
+    --zone-handle-light-border-color: var(--color-light-shade);
+
+    --zone-handle-dark-bg-image: url();
+    --zone-handle-dark-bg-color: var(--color-dark-shade);
+    --zone-handle-dark-color: var(--color-dark-contrast);
+    --zone-handle-dark-border-width: 1px;
+    --zone-handle-dark-border-color: var(--color-dark-shade);
+}
+
+.layout-theme-light {
+    --color-bg: var(--color-light);
+    --color-bg-shade: var(--color-light-shade);
+    --color-bg-tint: var(--color-light-tint);
+    --color-text: var(--color-light-contrast);
+    --color-text-shade: var(--color-light-contrast-shade);
+    --color-text-tint: var(--color-light-contrast-tint);
+
+    --wrapper-bg-color: var(--wrapper-light-bg-color);
+    --wrapper-text-color: var(--wrapper-light-text-color);
+
+    --zone-border-color: var(--zone-light-border-color);
+
+    --zone-handle-bg-image: var(--zone-handle-light-bg-image);
+    --zone-handle-bg-color: var(--zone-handle-light-bg-color);
+    --zone-handle-color: var(--zone-handle-light-color);
+    --zone-handle-border-width: var(--zone-handle-light-border-width);
+    --zone-handle-border-color: var(--zone-handle-light-border-color);
+}
+
+.layout-theme-dark {
+    --color-bg: var(--color-dark);
+    --color-bg-shade: var(--color-dark-shade);
+    --color-bg-tint: var(--color-dark-tint);
+    --color-text: var(--color-dark-contrast);
+    --color-text-shade: var(--color-dark-contrast-shade);
+    --color-text-tint: var(--color-dark-contrast-tint);
+
+    --wrapper-bg-color: var(--wrapper-dark-bg-color);
+    --wrapper-text-color: var(--wrapper-dark-text-color);
+
+    --zone-border-color: var(--zone-dark-border-color);
+
+    --zone-handle-bg-image: var(--zone-handle-dark-bg-image);
+    --zone-handle-bg-color: var(--zone-handle-dark-bg-color);
+    --zone-handle-color: var(--zone-handle-dark-color);
+    --zone-handle-border-width: var(--zone-handle-dark-border-width);
+    --zone-handle-border-color: var(--zone-handle-dark-border-color);
+}
+
+.resizer-handle-visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .1s linear;
+}
+
+.resizer-handle-hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .5s 1s, opacity 1s linear;
+}
+
+nav {
+    @include flexible();
+
+    &>ul {
+        &,
+        li {
+            @include flexible();
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            padding: 0 6px;
+        }
+    }
+}

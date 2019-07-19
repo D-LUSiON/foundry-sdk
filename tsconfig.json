@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "foundry-sdk": [
+        "dist/foundry-sdk"
+      ],
+      "foundry-sdk/*": [
+        "dist/foundry-sdk/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

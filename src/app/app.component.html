@@ -1,20 +1,84 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<fnd-layout-wrapper
+    [rows]="rows"
+    [columns]="columns"
+    [areas]="areas"
+    theme="dark"
+>
+    <fnd-layout-zone
+        role="header"
+        border="bottom"
+        direction="row"
+    ></fnd-layout-zone>
+    <fnd-layout-zone
+        role="shortcuts"
+        border="right"
+    ></fnd-layout-zone>
+    <fnd-layout-zone
+        role="sidebar"
+        border="right"
+        [ngStyle]="{ 'padding': '10px' }"
+        [resizers]="['right']"
+    >
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+    </fnd-layout-zone>
+    <fnd-layout-zone
+        role="tabs"
+        border="bottom"
+        direction="row"
+    ></fnd-layout-zone>
+    <fnd-layout-zone
+        role="main"
+        [ngStyle]="{ 'padding': '10px' }"
+    >
+        <p>
+            Lorem ipsum dolor sit amet, ea qui tritani interesset, sale probo omittantur id mei, choro nemore ei est. His ex noster scaevola incorrupte. Nec an exerci utamur impetus, quo altera epicurei eu. Quaeque qualisque eu eam, sapientem persequeris suscipiantur cu sea. Ad option appellantur mei, mentitum interesset vim cu, an nam unum erant aeque.
+        </p>
+        <p>
+            Лорем ипсум долор сит амет, ессент фастидии рецтеяуе ид еос, вих ан деленит цорпора. Ат хас неморе аппетере медиоцритатем, еиус вери волуптатибус те хис. Дуо нобис продессет ан, пробо доценди адиписци вих ин, ин еум темпор нолуиссе. Бонорум интеллегебат цу еос, ид опортеат посидониум елаборарет сеа, еам деленит диссентиас ех. Цум постеа регионе интерпретарис ет, ест ид иудицабит дефиниебас инцоррупте, дуо те дисцере плацерат.
+        </p>
+    </fnd-layout-zone>
+    <fnd-layout-zone
+        role="more"
+        border="top"
+        max-height="150px"
+        overflow-x="auto"
+        overflow-y="auto"
+        [ngStyle]="{ 'padding': '10px' }"
+        [resizers]="['top']"
+    >
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
+        <p>more</p>
+    ></fnd-layout-zone>
+    <fnd-layout-zone
+        role="aside"
+        border="left"
+        [ngStyle]="{ 'padding': '10px' }"
+        [resizers]="['left']"
+    >
+        <p>aside</p>
+    </fnd-layout-zone>
+    <fnd-layout-zone
+        role="footer"
+        border="top"
+    >Footer</fnd-layout-zone>
+</fnd-layout-wrapper>
