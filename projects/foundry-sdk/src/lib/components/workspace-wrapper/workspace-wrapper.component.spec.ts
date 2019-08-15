@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutWrapperComponent } from './layout-wrapper.component';
+import { WorkspaceWrapperComponent } from './workspace-wrapper.component';
 
-describe('LayoutWrapperComponent', () => {
-  let component: LayoutWrapperComponent;
-  let fixture: ComponentFixture<LayoutWrapperComponent>;
+describe('workspaceWrapperComponent', () => {
+  let component: WorkspaceWrapperComponent;
+  let fixture: ComponentFixture<WorkspaceWrapperComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutWrapperComponent ]
+      declarations: [ WorkspaceWrapperComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LayoutWrapperComponent);
+    fixture = TestBed.createComponent(WorkspaceWrapperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,15 +13,16 @@ import {
 import { ResizerEventsService } from '../../tools/resizer-events.service';
 
 @Component({
-  selector: 'fnd-layout-zone',
+  selector: 'fnd-workspace-zone',
   template: '<ng-content></ng-content>',
-  styleUrls: ['./layout-zone.component.scss']
+  styleUrls: ['./workspace-zone.component.scss']
 })
-export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
+export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit {
 
     @Input() role: string;
     @Input() border: string;
     @Input() resize_zone: string;
+    @Input() theme: string = '';
     @Input() overflow_x: 'visible' | 'auto' | 'none' | 'scroll' | 'initial' | 'clip' | 'overlay' = 'clip';
     @Input() overflow_y: 'visible' | 'auto' | 'none' | 'scroll' | 'initial' | 'clip' | 'overlay' = 'clip';
     @Input() min_height: string = '0';
@@ -35,6 +36,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
     @HostBinding('style.overflow-x') host_overfow_x = this.overflow_x;
     @HostBinding('style.overflow-y') host_overfow_y = this.overflow_y;
     @HostBinding('style.flex-direction') host_flex_direction = this.direction;
+    @HostBinding('attr.colorTheme') host_color_theme = this.theme;
 
 
     private _resizer_element: HTMLDivElement;
@@ -65,7 +67,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
         this._resizeService.emitter.subscribe((e: { zone: string, event: MouseEvent }) => {
             if (e.zone !== this.role) {
                 this.resizers.forEach(resizer => {
-                    this.updateResizerPosition(this.all_resizers[resizer]);
+                    this._updateResizerPosition(this.all_resizers[resizer]);
                 });
             }
         });
@@ -98,9 +100,9 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
                         break;
                 }
 
-                this.updateResizerPosition(resizer_el);
+                this._updateResizerPosition(resizer_el);
 
-                this.addMouseDragListeners(resizer_el, resizer);
+                this._addMouseDragListeners(resizer_el, resizer);
                 this._renderer.appendChild(document.querySelector('body'), resizer_el);
                 this.all_resizers[resizer] = resizer_el;
             } else {
@@ -110,6 +112,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        this.host_color_theme = this.theme;
         this.host_min_height = this.min_height;
         this.host_max_height = this.max_height;
         this.host_overfow_x = this.overflow_x;
@@ -118,6 +121,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        this.host_color_theme = this.theme;
         this.host_min_height = this.min_height;
         this.host_max_height = this.max_height;
         this.host_overfow_x = this.overflow_x;
@@ -125,7 +129,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
         this.host_flex_direction = this.direction;
     }
 
-    updateResizerPosition(resizer_el: HTMLDivElement) {
+    private _updateResizerPosition(resizer_el: HTMLDivElement): void {
         const position_info: DOMRect = this._el.nativeElement.getBoundingClientRect();
         const resizer = resizer_el.getAttribute('role');
 
@@ -164,7 +168,7 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
         }
     }
 
-    addMouseDragListeners(resizer_el: HTMLDivElement, resize: 'top' | 'right' | 'bottom' | 'left') {
+    private _addMouseDragListeners(resizer_el: HTMLDivElement, resize: 'top' | 'right' | 'bottom' | 'left'): void {
         this._renderer.listen(resizer_el, 'mouseenter', (e: MouseEvent) => {
             this._renderer.removeClass(resizer_el, 'resizer-handle-hidden');
             this._renderer.addClass(resizer_el, 'resizer-handle-visible');
@@ -207,10 +211,6 @@ export class LayoutZoneComponent implements OnInit, OnChanges, AfterViewInit {
                 win_mouseup_fn();
             });
         });
-    }
-
-    updateResizers() {
-
     }
 
 }

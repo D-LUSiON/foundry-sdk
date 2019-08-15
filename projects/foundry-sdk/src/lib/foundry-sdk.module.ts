@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
-import { LayoutZoneComponent } from './components/layout-zone/layout-zone.component';
-import { LayoutWrapperComponent } from './components/layout-wrapper/layout-wrapper.component';
+import { WorkspaceZoneComponent } from './components/workspace-zone/workspace-zone.component';
+import { WorkspaceWrapperComponent } from './components/workspace-wrapper/workspace-wrapper.component';
 
 
 @NgModule({
     declarations: [
-        LayoutZoneComponent,
-        LayoutWrapperComponent,
+        WorkspaceZoneComponent,
+        WorkspaceWrapperComponent,
     ],
     imports: [
     ],
     exports: [
-        LayoutZoneComponent,
-        LayoutWrapperComponent,
+        WorkspaceZoneComponent,
+        WorkspaceWrapperComponent,
     ]
 })
 export class FoundrySdkModule { }

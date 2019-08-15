@@ -1,24 +1,26 @@
-<fnd-layout-wrapper
+<fnd-workspace-wrapper
     [rows]="rows"
     [columns]="columns"
     [areas]="areas"
-    theme="dark"
+    [theme]="current_theme"
 >
-    <fnd-layout-zone
+    <fnd-workspace-zone
         role="header"
         border="bottom"
         direction="row"
-    ></fnd-layout-zone>
-    <fnd-layout-zone
+        theme="blue"
+    >Header</fnd-workspace-zone>
+    <fnd-workspace-zone
         role="shortcuts"
         border="right"
-    ></fnd-layout-zone>
-    <fnd-layout-zone
+    ></fnd-workspace-zone>
+    <fnd-workspace-zone
         role="sidebar"
         border="right"
         [ngStyle]="{ 'padding': '10px' }"
         [resizers]="['right']"
     >
+        <h1>Sidebar</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
@@ -30,24 +32,25 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
-    </fnd-layout-zone>
-    <fnd-layout-zone
+    </fnd-workspace-zone>
+    <fnd-workspace-zone
         role="tabs"
         border="bottom"
         direction="row"
-    ></fnd-layout-zone>
-    <fnd-layout-zone
+    >Tabs</fnd-workspace-zone>
+    <fnd-workspace-zone
         role="main"
         [ngStyle]="{ 'padding': '10px' }"
     >
+        <h1>Main workspace</h1>
         <p>
             Lorem ipsum dolor sit amet, ea qui tritani interesset, sale probo omittantur id mei, choro nemore ei est. His ex noster scaevola incorrupte. Nec an exerci utamur impetus, quo altera epicurei eu. Quaeque qualisque eu eam, sapientem persequeris suscipiantur cu sea. Ad option appellantur mei, mentitum interesset vim cu, an nam unum erant aeque.
         </p>
         <p>
             Лорем ипсум долор сит амет, ессент фастидии рецтеяуе ид еос, вих ан деленит цорпора. Ат хас неморе аппетере медиоцритатем, еиус вери волуптатибус те хис. Дуо нобис продессет ан, пробо доценди адиписци вих ин, ин еум темпор нолуиссе. Бонорум интеллегебат цу еос, ид опортеат посидониум елаборарет сеа, еам деленит диссентиас ех. Цум постеа регионе интерпретарис ет, ест ид иудицабит дефиниебас инцоррупте, дуо те дисцере плацерат.
         </p>
-    </fnd-layout-zone>
-    <fnd-layout-zone
+    </fnd-workspace-zone>
+    <fnd-workspace-zone
         role="more"
         border="top"
         max-height="150px"
@@ -56,6 +59,7 @@
         [ngStyle]="{ 'padding': '10px' }"
         [resizers]="['top']"
     >
+        <h1>More stuff below main workspace</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
@@ -68,17 +72,23 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, sit, eaque atque voluptate nihil unde soluta aperiam quos quae voluptas tenetur id magni enim alias repellendus cupiditate, dolor nulla ducimus.</p>
         <p>more</p>
-    ></fnd-layout-zone>
-    <fnd-layout-zone
+    ></fnd-workspace-zone>
+    <fnd-workspace-zone
         role="aside"
         border="left"
         [ngStyle]="{ 'padding': '10px' }"
         [resizers]="['left']"
     >
-        <p>aside</p>
-    </fnd-layout-zone>
-    <fnd-layout-zone
+        <h1>Aside</h1>
+        <label>Choose theme color:</label>
+        <select #themeSelector (change)="setTheme(themeSelector.value)">
+            <option [value]="theme" *ngFor="let theme of themes" [selected]="theme === current_theme">{{ theme }}</option>
+        </select>
+    </fnd-workspace-zone>
+    <fnd-workspace-zone
         role="footer"
         border="top"
-    >Footer</fnd-layout-zone>
-</fnd-layout-wrapper>
+        direction="row"
+        theme="blue"
+    >Footer</fnd-workspace-zone>
+</fnd-workspace-wrapper>

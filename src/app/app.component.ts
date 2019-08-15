@@ -25,6 +25,18 @@ export class AppComponent {
         '22px'
     ];
 
+    current_theme = 'dark';
+
+    themes = [
+        'light',
+        'dark',
+        'orange',
+        'blue',
+        'red',
+        'green',
+        'pink'
+    ];
+
     main_nav: NavigationElement[] = [
         {
             title: 'File',
@@ -66,5 +78,11 @@ export class AppComponent {
     ];
 
     constructor() {
+        this.current_theme = localStorage.getItem('theme') || 'light';
+    }
+
+    setTheme(theme: string) {
+        localStorage.setItem('theme', theme);
+        this.current_theme = theme;
     }
 }

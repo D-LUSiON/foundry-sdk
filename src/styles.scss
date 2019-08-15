@@ -1,11 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
 
-fnd-layout-zone[role="main"],
-fnd-layout-zone[role="more"] {
-    background-color: #1e1e1e;
+// @import '~foundry-sdk/scss/foundry-sdk';
+@import '../projects/foundry-sdk/src/lib/scss/tools.scss';
+@import '../projects/foundry-sdk/src/lib/scss/foundry-sdk-core.scss';
+@import '../projects/foundry-sdk/src/lib/scss/foundry-sdk-themes.scss';
+
+body {
+    font-family: 'Liberation Mono', monospace;
+    font-size: 10pt;
 }
 
-fnd-layout-zone[role="sidebar"],
-fnd-layout-zone[role="aside"] {
-    background-color: #252526;
+$colors: (
+    'orange': (
+        'color': #f7a354,
+        'contrast': #333333
+    ),
+    'blue': (
+        'color': #2961c7,
+        'contrast': #cccccc
+    ),
+    'red': (
+        'color': #ce4444,
+        'contrast': #cccccc
+    ),
+    'green': (
+        'color': #28c765,
+        'contrast': #333333
+    ),
+);
+
+:root {
+    @include setMultipleColors($colors);
+
+    @include setColorScheme('pink', #ff71f3, #333333);
+}
+
+@each $color_name, $color_values in $colors {
+    @include createTheme($color_name);
+
+    @include createTheme('pink');
+}
+
+// body {
+//     &::-webkit-scrollbar,
+//     *::-webkit-scrollbar {
+//         width: 10px;
+//         background-color: var(--scrollbar-color);
+//     }
+
+//     &::-webkit-scrollbar-thumb,
+//     *::-webkit-scrollbar-thumb {
+//         background-color: var(--scrollbar-thumb-color);
+//     }
+
+//     &::-webkit-scrollbar-thumb:hover,
+//     *::-webkit-scrollbar-thumb:hover {
+//         background-color: var(--scrollbar-thumb-hover-color);
+//     }
+
+//     &::-webkit-scrollbar-thumb:active,
+//     *::-webkit-scrollbar-thumb:active {
+//         background-color: var(--scrollbar-thumb-active-color);
+//     }
+
+//     // &::-webkit-scrollbar-corner,
+//     // *::-webkit-scrollbar-corner {
+//     //     /* 6 */
+//     // }
+
+//     // &::-webkit-resizer,
+//     // *::-webkit-resizer {
+//     //     /* 7 */
+//     // }
+// }
+
+fnd-workspace-zone[role="header"],
+fnd-workspace-zone[role="tabs"],
+fnd-workspace-zone[role="footer"] {
+    align-items: center;
 }

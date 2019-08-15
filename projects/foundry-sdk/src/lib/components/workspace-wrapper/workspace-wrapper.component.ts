@@ -2,11 +2,11 @@ import { Component, OnInit, Input, ElementRef, Renderer2, HostBinding, OnChanges
 import { ResizerEventsService } from '../../tools/resizer-events.service';
 
 @Component({
-    selector: 'fnd-layout-wrapper',
+    selector: 'fnd-workspace-wrapper',
     template: '<ng-content></ng-content>',
-    styleUrls: ['./layout-wrapper.component.scss']
+    styleUrls: ['./workspace-wrapper.component.scss']
 })
-export class LayoutWrapperComponent implements OnInit, OnChanges {
+export class WorkspaceWrapperComponent implements OnInit, OnChanges {
 
     @Input() rows: Array<string> = [];
     @Input() columns: Array<string> = [];
@@ -18,7 +18,7 @@ export class LayoutWrapperComponent implements OnInit, OnChanges {
     private _rows_initial: Array<string> = [];
     private _cols_initial: Array<string> = [];
 
-    @HostBinding('class') host_theme_class = `layout-theme-${this.theme}`;
+    @HostBinding('class') host_theme_class = `workspace-theme-${this.theme}`;
 
     constructor(
         private _el: ElementRef,
@@ -45,7 +45,7 @@ export class LayoutWrapperComponent implements OnInit, OnChanges {
                 } else if (e.handle === 'left') {
                     this.columns[idx] = `${window.outerWidth - e.event.pageX}px`;
                 }
-                this.setAreasStyle();
+                this._setAreasStyle();
             } else if (e.resize === 'v') {
                 let idx = -1;
                 this.areas.forEach((area_row, i) => {
@@ -59,7 +59,7 @@ export class LayoutWrapperComponent implements OnInit, OnChanges {
                 } else if (e.handle === 'bottom') {
                     this.rows[idx] = `${e.event.pageY + e.handle_width}px`;
                 }
-                this.setAreasStyle();
+                this._setAreasStyle();
             }
         });
     }
@@ -75,13 +75,15 @@ export class LayoutWrapperComponent implements OnInit, OnChanges {
                 this.columns = JSON.parse(localStorage.getItem('wrapper:columns'));
             }
         }
-        this.setAreasStyle();
-        this._renderer.addClass(document.querySelector('body'), `layout-theme-${this.theme}`);
+        this._setAreasStyle();
+        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
+        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.host_theme_class = `layout-theme-${this.theme}`;
-        this._renderer.addClass(document.querySelector('body'), `layout-theme-${this.theme}`);
+        this.host_theme_class = `workspace-theme-${this.theme}`;
+        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
+        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
         if (this.restore_state) {
             this._rows_initial = this.rows;
             this._cols_initial = this.columns;
@@ -92,10 +94,10 @@ export class LayoutWrapperComponent implements OnInit, OnChanges {
                 this.columns = JSON.parse(localStorage.getItem('wrapper:columns'));
             }
         }
-        this.setAreasStyle();
+        this._setAreasStyle();
     }
 
-    setAreasStyle() {
+    private _setAreasStyle() {
         this._renderer.setStyle(this._el.nativeElement, 'grid-template-rows', this.rows.join(' '));
         this._renderer.setStyle(this._el.nativeElement, 'grid-template-columns', this.columns.join(' '));
         this._renderer.setStyle(this._el.nativeElement, 'grid-template-areas', this.areas.map(x => `"${x.join(' ')}"`).join(' '));

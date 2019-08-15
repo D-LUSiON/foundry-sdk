@@ -21,7 +21,25 @@
     }
 }
 
-:host-context(fnd-layout-zone) {
+:host-context(fnd-workspace-zone) {
+    --scrollbar-color: var(--color-tint);
+    --scrollbar-thumb-color: var(--color-shade);
+    --scrollbar-thumb-hover-color: var(--color-shade-lighter);
+    --scrollbar-thumb-active-color: var(--color-shade-darker);
+
+    --wrapper-bg-color: var(--color);
+    --wrapper-text-color: var(--color-contrast);
+
+    --zone-bg-color: var(--color);
+    --zone-text-color: var(--color-contrast);
+    --zone-border-color: var(--color-shade);
+    --zone-border-style: solid;
+
+    --zone-handle-bg-color: var(--color-shade);
+    --zone-handle-color: var(--color-dark-contrast);
+    --zone-handle-border-width: 1px;
+    --zone-handle-border-color: var(--color-shade);
+
     display: flex;
     overflow: auto;
     word-break: break-all;
