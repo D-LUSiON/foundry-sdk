@@ -8,9 +8,11 @@ import {
     AfterViewInit,
     HostListener,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    Host
 } from '@angular/core';
 import { ResizerEventsService, ResizeEvent } from '../../tools/resizer-events.service';
+import { WorkspaceWrapperComponent } from '../workspace-wrapper/workspace-wrapper.component';
 
 @Component({
     selector: 'fnd-workspace-zone',
@@ -43,6 +45,8 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
 
     all_resizers: { [key: string]: HTMLDivElement } = {};
 
+    min_size: number = 0;
+
     @HostListener('mouseenter', ['$event']) onMouseEnter(e: MouseEvent) {
         Object.keys(this.all_resizers).forEach(resizer => {
             this._renderer.removeClass(this.all_resizers[resizer], 'resizer-handle-hidden');
@@ -71,7 +75,10 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
         private _el: ElementRef,
         private _renderer: Renderer2,
         private _resizeService: ResizerEventsService,
+        @Host() private _wrapper: WorkspaceWrapperComponent
     ) {
+        this.min_size = _wrapper.min_size;
+
         this._resizeService.emitter.subscribe((e: { zone: string, event: MouseEvent }) => {
             if (e.zone !== this.role) {
                 this.resizers.forEach(resizer => {
@@ -126,6 +133,7 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
         this.host_overfow_x = this.overflow_x;
         this.host_overfow_y = this.overflow_y;
         this.host_flex_direction = this.direction;
+        this.min_size = this._wrapper.min_size;
     }
 
     ngAfterViewInit(): void {
@@ -135,16 +143,13 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
         this.host_overfow_x = this.overflow_x;
         this.host_overfow_y = this.overflow_y;
         this.host_flex_direction = this.direction;
+        this.min_size = this._wrapper.min_size;
     }
 
     private _updateResizerPosition(resizer_el: HTMLDivElement): void {
         const position_info: DOMRect = this._el.nativeElement.getBoundingClientRect();
         const resizer = resizer_el.getAttribute('role');
 
-        this._renderer.setStyle(resizer_el, 'overflow', `hidden`);
-        setTimeout(() => {
-            this._renderer.setStyle(resizer_el, 'overflow', `auto`);
-        }, 3);
         switch (resizer) {
             case 'top':
                 this._renderer.setStyle(resizer_el, 'width', `${position_info.width}px`);
@@ -180,7 +185,7 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
     }
 
     private _addMouseDragListeners(resizer_el: HTMLDivElement, resize: 'top' | 'right' | 'bottom' | 'left'): void {
-        this._renderer.listen(resizer_el, 'mouseenter', (e: MouseEvent) => {
+        this._renderer.listen(resizer_el, 'mouseenter', () => {
             this._renderer.removeClass(resizer_el, 'resizer-handle-hidden');
             this._renderer.addClass(resizer_el, 'resizer-handle-visible');
         });
@@ -192,22 +197,31 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
             }
         });
 
-        this._renderer.listen(resizer_el, 'mousedown', (e: MouseEvent) => {
+        this._renderer.listen(resizer_el, 'mousedown', () => {
             this._renderer.setStyle(document.querySelector('body'), 'user-select', 'none');
+            this._renderer.setStyle(resizer_el, 'visibility', `hidden`);
             const win_mousemove_fn = this._renderer.listen(window, 'mousemove', (event: MouseEvent) => {
+                const client_rect = this._el.nativeElement.getBoundingClientRect();
                 switch (resize) {
                     case 'top':
-                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
-                        break;
-                    case 'right':
-                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX + this.resizer_width}px`);
+                        if (client_rect.height - (this.resizer_width / 2) > this.min_size) {
+                            this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        }
                         break;
                     case 'bottom':
-                        // TODO: Fix bottom resizer
-                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        if (client_rect.height + (this.resizer_width / 2) > this.min_size) {
+                            this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        }
+                        break;
+                    case 'right':
+                        if (client_rect.width - (this.resizer_width / 2) > this.min_size) {
+                            this._renderer.setStyle(resizer_el, 'left', `${event.pageX + this.resizer_width}px`);
+                        }
                         break;
                     case 'left':
-                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX - (this.resizer_width / 2)}px`);
+                        if (client_rect.width - (this.resizer_width / 2) > this.min_size) {
+                            this._renderer.setStyle(resizer_el, 'left', `${event.pageX - (this.resizer_width / 2)}px`);
+                        }
                         break;
                 }
 
@@ -220,17 +234,23 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
                     element_position: this._el.nativeElement.getBoundingClientRect(),
                     resizer_position: resizer_el.getBoundingClientRect(),
                 } as ResizeEvent);
+
+                // Force redraw of browser window because of a bug with fast resizing
+                this._renderer.setStyle(this._el.nativeElement, 'display', `none`);
+                this._renderer.removeStyle(this._el.nativeElement, 'display');
             });
             const win_dragstart_fn = this._renderer.listen(window, 'dragstart', (event: MouseEvent) => {
                 event.preventDefault();
                 event.stopPropagation();
                 return false;
             });
-            const win_mouseup_fn = this._renderer.listen(window, 'mouseup', (event: MouseEvent) => {
-                this._renderer.setStyle(document.querySelector('body'), 'user-select', 'unset');
+            const win_mouseup_fn = this._renderer.listen(window, 'mouseup', () => {
+                this._renderer.removeStyle(document.querySelector('body'), 'user-select');
+                this._renderer.removeStyle(resizer_el, 'visibility');
                 win_mousemove_fn();
                 win_dragstart_fn();
                 win_mouseup_fn();
+                this._updateResizerPosition(resizer_el);
             });
         });
     }

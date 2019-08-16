@@ -61,6 +61,7 @@
     [colorTheme="#{$color_name}"] {
         @include colorSetter(($color_name));
 
-        
+        background-color: var(--color);
+        color: var(--color-contrast);
     }
 }

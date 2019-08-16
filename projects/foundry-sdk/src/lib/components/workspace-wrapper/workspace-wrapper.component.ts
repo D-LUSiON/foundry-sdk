@@ -14,10 +14,10 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
     @Input() padding: string = '';
     @Input() theme: string = 'light';
     @Input() restore_state: boolean = true;
+    @Input() min_size: number = 30;
 
     private _rows_initial: Array<string> = [];
     private _cols_initial: Array<string> = [];
-
 
     constructor(
         private _el: ElementRef,
@@ -33,9 +33,13 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
                     }
                 });
                 if (e.handle === 'right') {
-                    this.columns[idx] = `${e.event.pageX - e.element_position.left + e.handle_width}px`;
+                    if ((e.event.pageX - e.element_position.left + e.handle_width) >= this.min_size) {
+                        this.columns[idx] = `${e.event.pageX - e.element_position.left + e.handle_width}px`;
+                    }
                 } else if (e.handle === 'left') {
-                    this.columns[idx] = `${window.innerWidth - e.event.pageX + (e.handle_width / 2)}px`;
+                    if ((window.innerWidth - e.event.pageX + (e.handle_width / 2)) >= this.min_size) {
+                        this.columns[idx] = `${window.innerWidth - e.event.pageX + (e.handle_width / 2)}px`;
+                    }
                 }
                 this._setAreasStyle();
             } else if (e.resize === 'v') {
@@ -47,11 +51,13 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
                 });
 
                 if (e.handle === 'top') {
-                    this.rows[idx] = `${e.element_position.bottom - e.event.pageY}px`;
+                    if ((e.element_position.bottom - e.event.pageY) >= this.min_size) {
+                        this.rows[idx] = `${e.element_position.bottom - e.event.pageY}px`;
+                    }
                 } else if (e.handle === 'bottom') {
-                    console.log(`e.resizer_position.top: ${e.resizer_position.top}: e.element_position.bottom: ${e.element_position.bottom}`);
-
-                    this.rows[idx] = `${(e.resizer_position.top - e.element_position.top) + (e.handle_width / 2)}px`;
+                    if (((e.resizer_position.top - e.element_position.top) + (e.handle_width / 2)) >= this.min_size) {
+                        this.rows[idx] = `${(e.resizer_position.top - e.element_position.top) + (e.handle_width / 2)}px`;
+                    }
                 }
                 this._setAreasStyle();
             }
