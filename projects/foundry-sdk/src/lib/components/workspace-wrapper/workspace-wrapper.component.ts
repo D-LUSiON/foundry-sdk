@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ElementRef, Renderer2, HostBinding, OnChanges, SimpleChanges } from '@angular/core';
-import { ResizerEventsService } from '../../tools/resizer-events.service';
+import { Component, OnInit, Input, ElementRef, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
+import { ResizerEventsService, ResizeEvent } from '../../tools/resizer-events.service';
 
 @Component({
     selector: 'fnd-workspace-wrapper',
@@ -18,21 +18,13 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
     private _rows_initial: Array<string> = [];
     private _cols_initial: Array<string> = [];
 
-    @HostBinding('class') host_theme_class = `workspace-theme-${this.theme}`;
 
     constructor(
         private _el: ElementRef,
         private _renderer: Renderer2,
         private _resizeService: ResizerEventsService,
     ) {
-        this._resizeService.emitter.subscribe((e: {
-            zone: string,
-            resize: 'h' | 'v',
-            handle: 'top' | 'right' | 'bottom' | 'left',
-            handle_width: number,
-            event: MouseEvent,
-            element_position: DOMRect,
-        }) => {
+        this._resizeService.emitter.subscribe((e: ResizeEvent) => {
             if (e.resize === 'h') {
                 let idx = -1;
                 this.areas.forEach(area_row => {
@@ -43,7 +35,7 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
                 if (e.handle === 'right') {
                     this.columns[idx] = `${e.event.pageX - e.element_position.left + e.handle_width}px`;
                 } else if (e.handle === 'left') {
-                    this.columns[idx] = `${window.outerWidth - e.event.pageX}px`;
+                    this.columns[idx] = `${window.innerWidth - e.event.pageX + (e.handle_width / 2)}px`;
                 }
                 this._setAreasStyle();
             } else if (e.resize === 'v') {
@@ -57,7 +49,9 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
                 if (e.handle === 'top') {
                     this.rows[idx] = `${e.element_position.bottom - e.event.pageY}px`;
                 } else if (e.handle === 'bottom') {
-                    this.rows[idx] = `${e.event.pageY + e.handle_width}px`;
+                    console.log(`e.resizer_position.top: ${e.resizer_position.top}: e.element_position.bottom: ${e.element_position.bottom}`);
+
+                    this.rows[idx] = `${(e.resizer_position.top - e.element_position.top) + (e.handle_width / 2)}px`;
                 }
                 this._setAreasStyle();
             }
@@ -76,13 +70,10 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
             }
         }
         this._setAreasStyle();
-        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
         this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.host_theme_class = `workspace-theme-${this.theme}`;
-        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
         this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
         if (this.restore_state) {
             this._rows_initial = this.rows;

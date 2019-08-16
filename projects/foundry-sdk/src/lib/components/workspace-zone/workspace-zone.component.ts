@@ -10,12 +10,12 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { ResizerEventsService } from '../../tools/resizer-events.service';
+import { ResizerEventsService, ResizeEvent } from '../../tools/resizer-events.service';
 
 @Component({
-  selector: 'fnd-workspace-zone',
-  template: '<ng-content></ng-content>',
-  styleUrls: ['./workspace-zone.component.scss']
+    selector: 'fnd-workspace-zone',
+    template: '<ng-content></ng-content>',
+    styleUrls: ['./workspace-zone.component.scss']
 })
 export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit {
 
@@ -57,6 +57,14 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
                 this._renderer.addClass(this.all_resizers[resizer], 'resizer-handle-hidden');
             });
         }
+    }
+
+    @HostListener('window:resize', ['$event']) onResize(event) {
+        setTimeout(() => {
+            this.resizers.forEach(resizer => {
+                this._updateResizerPosition(this.all_resizers[resizer]);
+            });
+        }, 200);
     }
 
     constructor(
@@ -133,6 +141,10 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
         const position_info: DOMRect = this._el.nativeElement.getBoundingClientRect();
         const resizer = resizer_el.getAttribute('role');
 
+        this._renderer.setStyle(resizer_el, 'overflow', `hidden`);
+        setTimeout(() => {
+            this._renderer.setStyle(resizer_el, 'overflow', `auto`);
+        }, 3);
         switch (resizer) {
             case 'top':
                 this._renderer.setStyle(resizer_el, 'width', `${position_info.width}px`);
@@ -151,7 +163,6 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
                 );
                 break;
             case 'bottom':
-                // TODO: Fix resizer
                 this._renderer.setStyle(resizer_el, 'width', `${position_info.width}px`);
                 this._renderer.setStyle(resizer_el, 'height', `${this.resizer_width}px`);
                 this._renderer.setStyle(resizer_el, 'top', `${position_info.bottom - this.resizer_width + (this.resizer_width / 2)}px`);
@@ -184,11 +195,22 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
         this._renderer.listen(resizer_el, 'mousedown', (e: MouseEvent) => {
             this._renderer.setStyle(document.querySelector('body'), 'user-select', 'none');
             const win_mousemove_fn = this._renderer.listen(window, 'mousemove', (event: MouseEvent) => {
-                if (['top', 'bottom'].includes(resize)) {
-                    this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
-                } else {
-                    this._renderer.setStyle(resizer_el, 'left', `${event.pageX}px`);
+                switch (resize) {
+                    case 'top':
+                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        break;
+                    case 'right':
+                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX + this.resizer_width}px`);
+                        break;
+                    case 'bottom':
+                        // TODO: Fix bottom resizer
+                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        break;
+                    case 'left':
+                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX - (this.resizer_width / 2)}px`);
+                        break;
                 }
+
                 this._resizeService.emitter.emit({
                     zone: this.role,
                     resize: ['top', 'bottom'].includes(resize) ? 'v' : 'h',
@@ -196,8 +218,8 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
                     handle_width: this.resizer_width,
                     event,
                     element_position: this._el.nativeElement.getBoundingClientRect(),
-                    resizer_width: this.resizer_width,
-                });
+                    resizer_position: resizer_el.getBoundingClientRect(),
+                } as ResizeEvent);
             });
             const win_dragstart_fn = this._renderer.listen(window, 'dragstart', (event: MouseEvent) => {
                 event.preventDefault();

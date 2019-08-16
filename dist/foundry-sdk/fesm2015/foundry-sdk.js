@@ -94,6 +94,24 @@ class WorkspaceZoneComponent {
         }
     }
     /**
+     * @param {?} event
+     * @return {?}
+     */
+    onResize(event) {
+        setTimeout((/**
+         * @return {?}
+         */
+        () => {
+            this.resizers.forEach((/**
+             * @param {?} resizer
+             * @return {?}
+             */
+            resizer => {
+                this._updateResizerPosition(this.all_resizers[resizer]);
+            }));
+        }), 200);
+    }
+    /**
      * @return {?}
      */
     ngOnInit() {
@@ -168,6 +186,13 @@ class WorkspaceZoneComponent {
         const position_info = this._el.nativeElement.getBoundingClientRect();
         /** @type {?} */
         const resizer = resizer_el.getAttribute('role');
+        this._renderer.setStyle(resizer_el, 'overflow', `hidden`);
+        setTimeout((/**
+         * @return {?}
+         */
+        () => {
+            this._renderer.setStyle(resizer_el, 'overflow', `auto`);
+        }), 3);
         switch (resizer) {
             case 'top':
                 this._renderer.setStyle(resizer_el, 'width', `${position_info.width}px`);
@@ -182,7 +207,6 @@ class WorkspaceZoneComponent {
                 this._renderer.setStyle(resizer_el, 'left', `${position_info.width + position_info.left - this.resizer_width + (this.resizer_width / 2)}px`);
                 break;
             case 'bottom':
-                // TODO: Fix resizer
                 this._renderer.setStyle(resizer_el, 'width', `${position_info.width}px`);
                 this._renderer.setStyle(resizer_el, 'height', `${this.resizer_width}px`);
                 this._renderer.setStyle(resizer_el, 'top', `${position_info.bottom - this.resizer_width + (this.resizer_width / 2)}px`);
@@ -235,21 +259,30 @@ class WorkspaceZoneComponent {
              * @return {?}
              */
             (event) => {
-                if (['top', 'bottom'].includes(resize)) {
-                    this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                switch (resize) {
+                    case 'top':
+                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        break;
+                    case 'right':
+                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX + this.resizer_width}px`);
+                        break;
+                    case 'bottom':
+                        // TODO: Fix bottom resizer
+                        this._renderer.setStyle(resizer_el, 'top', `${event.pageY}px`);
+                        break;
+                    case 'left':
+                        this._renderer.setStyle(resizer_el, 'left', `${event.pageX - (this.resizer_width / 2)}px`);
+                        break;
                 }
-                else {
-                    this._renderer.setStyle(resizer_el, 'left', `${event.pageX}px`);
-                }
-                this._resizeService.emitter.emit({
+                this._resizeService.emitter.emit((/** @type {?} */ ({
                     zone: this.role,
                     resize: ['top', 'bottom'].includes(resize) ? 'v' : 'h',
                     handle: resize,
                     handle_width: this.resizer_width,
                     event,
                     element_position: this._el.nativeElement.getBoundingClientRect(),
-                    resizer_width: this.resizer_width,
-                });
+                    resizer_position: resizer_el.getBoundingClientRect(),
+                })));
             }));
             /** @type {?} */
             const win_dragstart_fn = this._renderer.listen(window, 'dragstart', (/**
@@ -307,7 +340,8 @@ WorkspaceZoneComponent.propDecorators = {
     host_flex_direction: [{ type: HostBinding, args: ['style.flex-direction',] }],
     host_color_theme: [{ type: HostBinding, args: ['attr.colorTheme',] }],
     onMouseEnter: [{ type: HostListener, args: ['mouseenter', ['$event'],] }],
-    onMouseLeave: [{ type: HostListener, args: ['mouseleave', ['$event'],] }]
+    onMouseLeave: [{ type: HostListener, args: ['mouseleave', ['$event'],] }],
+    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
 };
 
 /**
@@ -332,7 +366,6 @@ class WorkspaceWrapperComponent {
         this.restore_state = true;
         this._rows_initial = [];
         this._cols_initial = [];
-        this.host_theme_class = `workspace-theme-${this.theme}`;
         this._resizeService.emitter.subscribe((/**
          * @param {?} e
          * @return {?}
@@ -358,7 +391,7 @@ class WorkspaceWrapperComponent {
                     this.columns[idx] = `${e.event.pageX - e.element_position.left + e.handle_width}px`;
                 }
                 else if (e.handle === 'left') {
-                    this.columns[idx] = `${window.outerWidth - e.event.pageX}px`;
+                    this.columns[idx] = `${window.innerWidth - e.event.pageX + (e.handle_width / 2)}px`;
                 }
                 this._setAreasStyle();
             }
@@ -379,7 +412,8 @@ class WorkspaceWrapperComponent {
                     this.rows[idx] = `${e.element_position.bottom - e.event.pageY}px`;
                 }
                 else if (e.handle === 'bottom') {
-                    this.rows[idx] = `${e.event.pageY + e.handle_width}px`;
+                    console.log(`e.resizer_position.top: ${e.resizer_position.top}: e.element_position.bottom: ${e.element_position.bottom}`);
+                    this.rows[idx] = `${(e.resizer_position.top - e.element_position.top) + (e.handle_width / 2)}px`;
                 }
                 this._setAreasStyle();
             }
@@ -400,7 +434,6 @@ class WorkspaceWrapperComponent {
             }
         }
         this._setAreasStyle();
-        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
         this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
     }
     /**
@@ -408,8 +441,6 @@ class WorkspaceWrapperComponent {
      * @return {?}
      */
     ngOnChanges(changes) {
-        this.host_theme_class = `workspace-theme-${this.theme}`;
-        this._renderer.addClass(document.querySelector('body'), `workspace-theme-${this.theme}`);
         this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
         if (this.restore_state) {
             this._rows_initial = this.rows;
@@ -460,8 +491,7 @@ WorkspaceWrapperComponent.propDecorators = {
     areas: [{ type: Input }],
     padding: [{ type: Input }],
     theme: [{ type: Input }],
-    restore_state: [{ type: Input }],
-    host_theme_class: [{ type: HostBinding, args: ['class',] }]
+    restore_state: [{ type: Input }]
 };
 
 /**

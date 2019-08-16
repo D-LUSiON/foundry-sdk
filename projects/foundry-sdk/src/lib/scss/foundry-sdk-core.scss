@@ -8,6 +8,16 @@ body {
     --scrollbar-thumb-hover-color: var(--color-shade-lighter);
     --scrollbar-thumb-active-color: var(--color-shade-darker);
 
+    --zone-bg-color: var(--color);
+    --zone-text-color: var(--color-contrast);
+    --zone-border-color: var(--color-shade);
+    --zone-border-style: solid;
+
+    --zone-handle-bg-color: var(--color-shade);
+    --zone-handle-color: var(--color-dark-contrast);
+    --zone-handle-border-width: 1px;
+    --zone-handle-border-color: var(--color-shade);
+
     &::-webkit-scrollbar,
     *::-webkit-scrollbar {
         width: 10px;

@@ -105,6 +105,29 @@
             }
         };
         /**
+         * @param {?} event
+         * @return {?}
+         */
+        WorkspaceZoneComponent.prototype.onResize = /**
+         * @param {?} event
+         * @return {?}
+         */
+        function (event) {
+            var _this = this;
+            setTimeout((/**
+             * @return {?}
+             */
+            function () {
+                _this.resizers.forEach((/**
+                 * @param {?} resizer
+                 * @return {?}
+                 */
+                function (resizer) {
+                    _this._updateResizerPosition(_this.all_resizers[resizer]);
+                }));
+            }), 200);
+        };
+        /**
          * @return {?}
          */
         WorkspaceZoneComponent.prototype.ngOnInit = /**
@@ -191,10 +214,18 @@
          * @return {?}
          */
         function (resizer_el) {
+            var _this = this;
             /** @type {?} */
             var position_info = this._el.nativeElement.getBoundingClientRect();
             /** @type {?} */
             var resizer = resizer_el.getAttribute('role');
+            this._renderer.setStyle(resizer_el, 'overflow', "hidden");
+            setTimeout((/**
+             * @return {?}
+             */
+            function () {
+                _this._renderer.setStyle(resizer_el, 'overflow', "auto");
+            }), 3);
             switch (resizer) {
                 case 'top':
                     this._renderer.setStyle(resizer_el, 'width', position_info.width + "px");
@@ -209,7 +240,6 @@
                     this._renderer.setStyle(resizer_el, 'left', position_info.width + position_info.left - this.resizer_width + (this.resizer_width / 2) + "px");
                     break;
                 case 'bottom':
-                    // TODO: Fix resizer
                     this._renderer.setStyle(resizer_el, 'width', position_info.width + "px");
                     this._renderer.setStyle(resizer_el, 'height', this.resizer_width + "px");
                     this._renderer.setStyle(resizer_el, 'top', position_info.bottom - this.resizer_width + (this.resizer_width / 2) + "px");
@@ -269,21 +299,30 @@
                  * @return {?}
                  */
                 function (event) {
-                    if (['top', 'bottom'].includes(resize)) {
-                        _this._renderer.setStyle(resizer_el, 'top', event.pageY + "px");
+                    switch (resize) {
+                        case 'top':
+                            _this._renderer.setStyle(resizer_el, 'top', event.pageY + "px");
+                            break;
+                        case 'right':
+                            _this._renderer.setStyle(resizer_el, 'left', event.pageX + _this.resizer_width + "px");
+                            break;
+                        case 'bottom':
+                            // TODO: Fix bottom resizer
+                            _this._renderer.setStyle(resizer_el, 'top', event.pageY + "px");
+                            break;
+                        case 'left':
+                            _this._renderer.setStyle(resizer_el, 'left', event.pageX - (_this.resizer_width / 2) + "px");
+                            break;
                     }
-                    else {
-                        _this._renderer.setStyle(resizer_el, 'left', event.pageX + "px");
-                    }
-                    _this._resizeService.emitter.emit({
+                    _this._resizeService.emitter.emit((/** @type {?} */ ({
                         zone: _this.role,
                         resize: ['top', 'bottom'].includes(resize) ? 'v' : 'h',
                         handle: resize,
                         handle_width: _this.resizer_width,
                         event: event,
                         element_position: _this._el.nativeElement.getBoundingClientRect(),
-                        resizer_width: _this.resizer_width,
-                    });
+                        resizer_position: resizer_el.getBoundingClientRect(),
+                    })));
                 }));
                 /** @type {?} */
                 var win_dragstart_fn = _this._renderer.listen(window, 'dragstart', (/**
@@ -340,7 +379,8 @@
             host_flex_direction: [{ type: core.HostBinding, args: ['style.flex-direction',] }],
             host_color_theme: [{ type: core.HostBinding, args: ['attr.colorTheme',] }],
             onMouseEnter: [{ type: core.HostListener, args: ['mouseenter', ['$event'],] }],
-            onMouseLeave: [{ type: core.HostListener, args: ['mouseleave', ['$event'],] }]
+            onMouseLeave: [{ type: core.HostListener, args: ['mouseleave', ['$event'],] }],
+            onResize: [{ type: core.HostListener, args: ['window:resize', ['$event'],] }]
         };
         return WorkspaceZoneComponent;
     }());
@@ -363,7 +403,6 @@
             this.restore_state = true;
             this._rows_initial = [];
             this._cols_initial = [];
-            this.host_theme_class = "workspace-theme-" + this.theme;
             this._resizeService.emitter.subscribe((/**
              * @param {?} e
              * @return {?}
@@ -389,7 +428,7 @@
                         _this.columns[idx_1] = e.event.pageX - e.element_position.left + e.handle_width + "px";
                     }
                     else if (e.handle === 'left') {
-                        _this.columns[idx_1] = window.outerWidth - e.event.pageX + "px";
+                        _this.columns[idx_1] = window.innerWidth - e.event.pageX + (e.handle_width / 2) + "px";
                     }
                     _this._setAreasStyle();
                 }
@@ -410,7 +449,8 @@
                         _this.rows[idx_2] = e.element_position.bottom - e.event.pageY + "px";
                     }
                     else if (e.handle === 'bottom') {
-                        _this.rows[idx_2] = e.event.pageY + e.handle_width + "px";
+                        console.log("e.resizer_position.top: " + e.resizer_position.top + ": e.element_position.bottom: " + e.element_position.bottom);
+                        _this.rows[idx_2] = (e.resizer_position.top - e.element_position.top) + (e.handle_width / 2) + "px";
                     }
                     _this._setAreasStyle();
                 }
@@ -434,7 +474,6 @@
                 }
             }
             this._setAreasStyle();
-            this._renderer.addClass(document.querySelector('body'), "workspace-theme-" + this.theme);
             this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
         };
         /**
@@ -446,8 +485,6 @@
          * @return {?}
          */
         function (changes) {
-            this.host_theme_class = "workspace-theme-" + this.theme;
-            this._renderer.addClass(document.querySelector('body'), "workspace-theme-" + this.theme);
             this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
             if (this.restore_state) {
                 this._rows_initial = this.rows;
@@ -501,8 +538,7 @@
             areas: [{ type: core.Input }],
             padding: [{ type: core.Input }],
             theme: [{ type: core.Input }],
-            restore_state: [{ type: core.Input }],
-            host_theme_class: [{ type: core.HostBinding, args: ['class',] }]
+            restore_state: [{ type: core.Input }]
         };
         return WorkspaceWrapperComponent;
     }());
