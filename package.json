@@ -1,7 +1,7 @@
 {
     "name": "foundry-sdk",
     "description": "Foundry SDK is an Angular module that makes creation of software interfaces easier.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
