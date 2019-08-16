@@ -1,0 +1,21 @@
+{
+  "name": "foundry-sdk",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.1.0",
+    "@angular/core": "^8.1.0"
+  },
+  "main": "bundles/foundry-sdk.umd.js",
+  "module": "fesm5/foundry-sdk.js",
+  "es2015": "fesm2015/foundry-sdk.js",
+  "esm5": "esm5/foundry-sdk.js",
+  "esm2015": "esm2015/foundry-sdk.js",
+  "fesm5": "fesm5/foundry-sdk.js",
+  "fesm2015": "fesm2015/foundry-sdk.js",
+  "typings": "foundry-sdk.d.ts",
+  "metadata": "foundry-sdk.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

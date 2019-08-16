@@ -1,0 +1,12 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Generated bundle index. Do not edit.
+ */
+export { FoundrySdkModule, NavigationElement } from './public-api';
+export { WorkspaceWrapperComponent as ɵc } from './lib/components/workspace-wrapper/workspace-wrapper.component';
+export { WorkspaceZoneComponent as ɵa } from './lib/components/workspace-zone/workspace-zone.component';
+export { ResizerEventsService as ɵb } from './lib/tools/resizer-events.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm91bmRyeS1zZGsuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9mb3VuZHJ5LXNkay8iLCJzb3VyY2VzIjpbImZvdW5kcnktc2RrLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFJQSxvREFBYyxjQUFjLENBQUM7QUFFN0IsT0FBTyxFQUFDLHlCQUF5QixJQUFJLEVBQUUsRUFBQyxNQUFNLGdFQUFnRSxDQUFDO0FBQy9HLE9BQU8sRUFBQyxzQkFBc0IsSUFBSSxFQUFFLEVBQUMsTUFBTSwwREFBMEQsQ0FBQztBQUN0RyxPQUFPLEVBQUMsb0JBQW9CLElBQUksRUFBRSxFQUFDLE1BQU0sb0NBQW9DLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEdlbmVyYXRlZCBidW5kbGUgaW5kZXguIERvIG5vdCBlZGl0LlxuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vcHVibGljLWFwaSc7XG5cbmV4cG9ydCB7V29ya3NwYWNlV3JhcHBlckNvbXBvbmVudCBhcyDJtWN9IGZyb20gJy4vbGliL2NvbXBvbmVudHMvd29ya3NwYWNlLXdyYXBwZXIvd29ya3NwYWNlLXdyYXBwZXIuY29tcG9uZW50JztcbmV4cG9ydCB7V29ya3NwYWNlWm9uZUNvbXBvbmVudCBhcyDJtWF9IGZyb20gJy4vbGliL2NvbXBvbmVudHMvd29ya3NwYWNlLXpvbmUvd29ya3NwYWNlLXpvbmUuY29tcG9uZW50JztcbmV4cG9ydCB7UmVzaXplckV2ZW50c1NlcnZpY2UgYXMgybVifSBmcm9tICcuL2xpYi90b29scy9yZXNpemVyLWV2ZW50cy5zZXJ2aWNlJzsiXX0=
