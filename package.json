@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build",
+        "build": "ng build foundry-sdk && cp -r projects/foundry-sdk/src/lib/scss dist/foundry-sdk/scss",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
