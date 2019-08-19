@@ -10,7 +10,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "bundle:scss": "scss-bundle -e ./projects/foundry-sdk/src/lib/foundry-sdk.scss -d dist/foundry-sdk/scss/foundry-sdk.scss",
-        "publish": "ng build foundry-sdk && npm run bundle:scss cd dist/foundry-sdk && npm publish --dry-run"
+        "publish": "npm run build && npm run bundle:scss cd dist/foundry-sdk && npm publish --dry-run"
     },
     "private": true,
     "author": "D-LUSiON",
