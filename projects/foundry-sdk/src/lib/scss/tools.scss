@@ -17,49 +17,152 @@
     @return invert($color, $weight);
 }
 
-@mixin setColorScheme($color_name, $color, $contrast: invertColor($color, 80%)) {
-    --color-#{$color_name}: #{$color};
-    --color-#{$color_name}-tint: #{tintColor($color, 10%)};
-    --color-#{$color_name}-tint-lighter: #{tintColor($color, 15%)};
-    --color-#{$color_name}-tint-darker: #{tintColor($color, 5%)};
-    --color-#{$color_name}-shade: #{shadeColor($color, 10%)};
-    --color-#{$color_name}-shade-lighter: #{shadeColor($color, 5%)};
-    --color-#{$color_name}-shade-darker: #{shadeColor($color, 15%)};
-    --color-#{$color_name}-contrast: #{$contrast};
-    --color-#{$color_name}-contrast-tint: #{tintColor($contrast, 10%)};
-    --color-#{$color_name}-contrast-tint-lighter: #{tintColor($contrast, 15%)};
-    --color-#{$color_name}-contrast-tint-darker: #{tintColor($contrast, 5%)};
-    --color-#{$color_name}-contrast-shade: #{shadeColor($contrast, 10%)};
-    --color-#{$color_name}-contrast-shade-lighter: #{shadeColor($contrast, 5%)};
-    --color-#{$color_name}-contrast-shade-darker: #{shadeColor($contrast, 15%)};
+@mixin setColorScheme($name,
+    $color,
+    $contrast: invertColor($color, 80%),
+    $accent: invertColor($color, 0%),
+    $accent_contrast: invertColor(invertColor($color, 0%), 80%),
+    $inverted: false
+) {
+    --color-#{$name}-tint-lighter: #{tintColor($color, 15%)};
+    --color-#{$name}-tint: #{tintColor($color, 10%)};
+    --color-#{$name}-tint-darker: #{tintColor($color, 5%)};
+    --color-#{$name}: #{$color};
+    --color-#{$name}-shade-lighter: #{shadeColor($color, 5%)};
+    --color-#{$name}-shade: #{shadeColor($color, 10%)};
+    --color-#{$name}-shade-darker: #{shadeColor($color, 15%)};
+    --color-#{$name}-contrast-tint-lighter: #{tintColor($contrast, 15%)};
+    --color-#{$name}-contrast-tint: #{tintColor($contrast, 10%)};
+    --color-#{$name}-contrast-tint-darker: #{tintColor($contrast, 5%)};
+    --color-#{$name}-contrast: #{$contrast};
+    --color-#{$name}-contrast-shade-lighter: #{shadeColor($contrast, 5%)};
+    --color-#{$name}-contrast-shade: #{shadeColor($contrast, 10%)};
+    --color-#{$name}-contrast-shade-darker: #{shadeColor($contrast, 15%)};
+    @if $accent {
+        --color-#{$name}-accent-tint-lighter: #{tintColor($accent, 15%)};
+        --color-#{$name}-accent-tint: #{tintColor($accent, 10%)};
+        --color-#{$name}-accent-tint-darker: #{tintColor($accent, 5%)};
+        --color-#{$name}-accent: #{$accent};
+        --color-#{$name}-accent-shade-lighter: #{shadeColor($accent, 5%)};
+        --color-#{$name}-accent-shade: #{shadeColor($accent, 10%)};
+        --color-#{$name}-accent-shade-darker: #{shadeColor($accent, 15%)};
+        @if $accent_contrast {
+            --color-#{$name}-accent-contrast-tint-lighter: #{tintColor($accent_contrast, 15%)};
+            --color-#{$name}-accent-contrast-tint: #{tintColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-tint-darker: #{tintColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast: #{$accent_contrast};
+            --color-#{$name}-accent-contrast-shade-lighter: #{shadeColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast-shade: #{shadeColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-shade-darker: #{shadeColor($accent_contrast, 15%)};
+        } @else {
+            $accent_contrast: invertColor($accent, 80%);
+            --color-#{$name}-accent-contrast-tint-lighter: #{tintColor($accent_contrast, 15%)};
+            --color-#{$name}-accent-contrast-tint: #{tintColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-tint-darker: #{tintColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast: #{$accent_contrast};
+            --color-#{$name}-accent-contrast-shade-lighter: #{shadeColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast-shade: #{shadeColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-shade-darker: #{shadeColor($accent_contrast, 15%)};
+        }
+    } @else {
+        $accent: shadeColor($color, 10%);
+        @if $inverted {
+            $accent: tintColor($color, 10%);
+        }
+        --color-#{$name}-accent-tint-lighter: #{tintColor($accent, 15%)};
+        --color-#{$name}-accent-tint: #{tintColor($accent, 10%)};
+        --color-#{$name}-accent-tint-darker: #{tintColor($accent, 5%)};
+        --color-#{$name}-accent: #{$accent};
+        --color-#{$name}-accent-shade-lighter: #{shadeColor($accent, 5%)};
+        --color-#{$name}-accent-shade: #{shadeColor($accent, 10%)};
+        --color-#{$name}-accent-shade-darker: #{shadeColor($accent, 15%)};
+        @if $accent_contrast {
+            --color-#{$name}-accent-contrast-tint-lighter: #{tintColor($accent_contrast, 15%)};
+            --color-#{$name}-accent-contrast-tint: #{tintColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-tint-darker: #{tintColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast: #{$accent_contrast};
+            --color-#{$name}-accent-contrast-shade-lighter: #{shadeColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast-shade: #{shadeColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-shade-darker: #{shadeColor($accent_contrast, 15%)};
+        } @else {
+            $accent_contrast: invertColor($accent, 80%);
+            --color-#{$name}-accent-contrast-tint-lighter: #{tintColor($accent_contrast, 15%)};
+            --color-#{$name}-accent-contrast-tint: #{tintColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-tint-darker: #{tintColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast: #{$accent_contrast};
+            --color-#{$name}-accent-contrast-shade-lighter: #{shadeColor($accent_contrast, 5%)};
+            --color-#{$name}-accent-contrast-shade: #{shadeColor($accent_contrast, 10%)};
+            --color-#{$name}-accent-contrast-shade-darker: #{shadeColor($accent_contrast, 15%)};
+        }
+    }
 }
 
 @mixin setMultipleColors($colors) {
     @each $color_name, $color in $colors {
-        @include setColorScheme($color_name, map-get($color, 'color'), map-get($color, 'contrast'));
+        @include setColorScheme(
+            $name: $color_name,
+            $color: map-get($color, 'color'),
+            $contrast: map-get($color, 'contrast'),
+            $accent: map-get($color, 'accent'),
+            $inverted: map-get($color, 'inverted')
+        );
     }
 }
 
-@mixin colorSetter($color) {
-    --color: var(--color-#{$color});
-    --color-tint: var(--color-#{$color}-tint);
-    --color-tint-lighter: var(--color-#{$color}-tint-lighter);
-    --color-tint-darker: var(--color-#{$color}-tint-darker);
-    --color-shade: var(--color-#{$color}-shade);
-    --color-shade-lighter: var(--color-#{$color}-shade-lighter);
-    --color-shade-darker: var(--color-#{$color}-shade-darker);
-    --color-contrast: var(--color-#{$color}-contrast);
-    --color-contrast-tint: var(--color-#{$color}-tint);
-    --color-contrast-tint-lighter: var(--color-#{$color}-tint-lighter);
-    --color-contrast-tint-darker: var(--color-#{$color}-tint-darker);
-    --color-contrast-shade: var(--color-#{$color}-contrast-shade);
-    --color-contrast-shade-ligher: var(--color-#{$color}-contrast-shade-lighter);
-    --color-contrast-shade-darker: var(--color-#{$color}-contrast-shade-darker);
+@mixin colorSetter($name, $inverted: false) {
+    --color-tint-lighter:                 var(--color-#{$name}-tint-lighter);
+    --color-tint:                         var(--color-#{$name}-tint);
+    --color-tint-darker:                  var(--color-#{$name}-tint-darker);
+    --color:                              var(--color-#{$name});
+    --color-shade-lighter:                var(--color-#{$name}-shade-lighter);
+    --color-shade:                        var(--color-#{$name}-shade);
+    --color-shade-darker:                 var(--color-#{$name}-shade-darker);
+    --color-contrast-tint-lighter:        var(--color-#{$name}-contrast-tint-lighter);
+    --color-contrast-tint:                var(--color-#{$name}-contrast-tint);
+    --color-contrast-tint-darker:         var(--color-#{$name}-contrast-tint-darker);
+    --color-contrast:                     var(--color-#{$name}-contrast);
+    --color-contrast-shade-ligher:        var(--color-#{$name}-contrast-shade-lighter);
+    --color-contrast-shade:               var(--color-#{$name}-contrast-shade);
+    --color-contrast-shade-darker:        var(--color-#{$name}-contrast-shade-darker);
+    --color-accent-tint-lighter:          var(--color-#{$name}-accent-tint-lighter);
+    --color-accent-tint:                  var(--color-#{$name}-accent-tint);
+    --color-accent-tint-darker:           var(--color-#{$name}-accent-tint-darker);
+    --color-accent:                       var(--color-#{$name}-accent);
+    --color-accent-shade-lighter:         var(--color-#{$name}-accent-shade-lighter);
+    --color-accent-shade:                 var(--color-#{$name}-accent-shade);
+    --color-accent-shade-darker:          var(--color-#{$name}-accent-shade-darker);
+    --color-accent-contrast-tint-lighter: var(--color-#{$name}-accent-contrast-tint-lighter);
+    --color-accent-contrast-tint:         var(--color-#{$name}-accent-contrast-tint);
+    --color-accent-contrast-tint-darker:  var(--color-#{$name}-accent-contrast-tint-darker);
+    --color-accent-contrast:              var(--color-#{$name}-accent-contrast);
+    --color-accent-contrast-shade-ligher: var(--color-#{$name}-accent-contrast-shade-lighter);
+    --color-accent-contrast-shade:        var(--color-#{$name}-accent-contrast-shade);
+    --color-accent-contrast-shade-darker: var(--color-#{$name}-accent-contrast-shade-darker);
+
+    --border-width: 1px;
+    --border-style: solid;
+    --margin: 10px;
+    --padding: 10px;
+    --font-size: 10pt;
+    --font-family: monospace;
+
+    --item-border-width: 1px;
+    --item-border-style: solid;
+
+    @if $inverted {
+        --item-border-color: var(--color-accent-lighter);
+        --item-background-color: var(--color-accent);
+        --item-color: var(--color-contrast);
+    } @else {
+        --item-border-color: var(--color-accent-darker);
+        --item-background-color: var(--color-accent);
+        --item-color: var(--color-contrast);
+    }
 }
 
-@mixin createTheme($color_name) {
-    [colorTheme="#{$color_name}"] {
-        @include colorSetter(($color_name));
+@mixin createTheme($name, $inverted: false) {
+    [colorTheme="#{$name}"] {
+        @include colorSetter($name, $inverted);
 
         background-color: var(--color);
         color: var(--color-contrast);

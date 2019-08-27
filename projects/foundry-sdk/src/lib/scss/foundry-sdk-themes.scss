@@ -2,12 +2,16 @@
 
 $colors: (
     'light': (
-        'color': #f0f0f0,
-        'contrast': #333333
+        'inverted': false,
+        'color': #eee,
+        'contrast': #333,
+        'accent': #888
     ),
     'dark': (
-        'color': #333334,
-        'contrast': #cccccc
+        'inverted': true,
+        'color': #333,
+        'contrast': #ccc,
+        'accent': #888
     ),
 );
 
@@ -16,5 +20,5 @@ $colors: (
 }
 
 @each $color_name, $color_values in $colors {
-    @include createTheme($color_name);
+    @include createTheme($color_name, map-get($color_values, 'inverted'));
 }

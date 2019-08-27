@@ -1,0 +1,25 @@
+::ng-deep {
+    :root {
+        --item-border-width: 1px;
+        --item-border-style: solid;
+        --item-border-color: var(--color-contrast-tint);
+        --item-background-color: var(--color-shade);
+    }
+}
+
+
+:host-context(fnd-list-item) {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    border-bottom-width: var(--item-border-width);
+    border-bottom-style: var(--item-border-style);
+    border-bottom-color: var(--item-border-color);
+    padding: var(--padding);
+    background-color: var(--item-background-color);
+    color: var(--item-color);
+
+    &>* {
+        flex: 0 0 auto;
+    }
+}

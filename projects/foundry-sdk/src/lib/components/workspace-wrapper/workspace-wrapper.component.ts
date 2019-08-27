@@ -12,9 +12,11 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
     @Input() columns: Array<string> = [];
     @Input() areas: Array<Array<string>> = [];
     @Input() padding: string = '';
-    @Input() theme: string = 'light';
+    @Input() theme: string = 'default-light';
     @Input() restore_state: boolean = true;
     @Input() min_size: number = 30;
+
+    private _default_theme: string = 'default-light';
 
     private _rows_initial: Array<string> = [];
     private _cols_initial: Array<string> = [];
@@ -69,26 +71,38 @@ export class WorkspaceWrapperComponent implements OnInit, OnChanges {
             this._rows_initial = this.rows;
             this._cols_initial = this.columns;
             if (localStorage.getItem('wrapper:rows')) {
-                this.rows = JSON.parse(localStorage.getItem('wrapper:rows'));
+                const rows = JSON.parse(localStorage.getItem('wrapper:rows'));
+                if (rows.length === (this.areas[0] || []).length && rows.length === this._rows_initial.length) {
+                    this.rows = rows;
+                }
             }
             if (localStorage.getItem('wrapper:columns')) {
-                this.columns = JSON.parse(localStorage.getItem('wrapper:columns'));
+                const columns = JSON.parse(localStorage.getItem('wrapper:columns'));
+                if (columns.length === this.areas.length && columns.length === this._cols_initial.length) {
+                    this.columns = columns;
+                }
             }
         }
         this._setAreasStyle();
-        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
+        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', (this.theme || this._default_theme));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', this.theme);
+        this._renderer.setAttribute(document.querySelector('body'), 'colorTheme', (this.theme || this._default_theme));
         if (this.restore_state) {
             this._rows_initial = this.rows;
             this._cols_initial = this.columns;
             if (localStorage.getItem('wrapper:rows')) {
-                this.rows = JSON.parse(localStorage.getItem('wrapper:rows'));
+                const rows = JSON.parse(localStorage.getItem('wrapper:rows'));
+                if (rows.length === (this.areas[0] || []).length && rows.length === this._rows_initial.length) {
+                    this.rows = rows;
+                }
             }
             if (localStorage.getItem('wrapper:columns')) {
-                this.columns = JSON.parse(localStorage.getItem('wrapper:columns'));
+                const columns = JSON.parse(localStorage.getItem('wrapper:columns'));
+                if (columns.length === this.areas.length && columns.length === this._cols_initial.length) {
+                    this.columns = columns;
+                }
             }
         }
         this._setAreasStyle();

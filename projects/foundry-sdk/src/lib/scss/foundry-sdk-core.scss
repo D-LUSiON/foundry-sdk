@@ -1,15 +1,50 @@
+@import 'tools.scss';
+
+$colors: (
+    'default-light': (
+        'inverted': false,
+        'color': #f0f0f0,
+        'contrast': #333333
+    ),
+    'default-dark': (
+        'inverted': true,
+        'color': #252526,
+        'contrast': #cccccc
+    ),
+);
+
+
+:root {
+    @include setMultipleColors($colors);
+    --margin: 10px;
+    --padding: 10px;
+}
+
+@each $color_name, $color_values in $colors {
+    @include createTheme($color_name, map-get($color_values, 'inverted'));
+}
+
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: var(--color);
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    color: var(--color-contrast);
+
+    & *:not(input),
+    & *:not(select),
+    & *:not(textarea),
+    & *:not(button) {
+        cursor: default;
+    }
 
     --scrollbar-color: var(--color-tint);
     --scrollbar-thumb-color: var(--color-shade);
     --scrollbar-thumb-hover-color: var(--color-shade-lighter);
     --scrollbar-thumb-active-color: var(--color-shade-darker);
 
-    --zone-bg-color: var(--color);
-    --zone-text-color: var(--color-contrast);
     --zone-border-color: var(--color-shade);
     --zone-border-style: solid;
 

@@ -8,9 +8,47 @@
 body {
     font-family: 'Liberation Mono', monospace;
     font-size: 10pt;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    h7,
+    p {
+        margin: 0;
+        margin-bottom: 0.5rem;
+        padding: 0;
+    }
+
+    button.mat-menu-item {
+        line-height: 24px !important;
+    }
+
+    a.mat-menu-item>mat-icon {
+        margin-bottom: 14px;
+    }
+
+    .mat-icon svg {
+        height: 24px;
+        width: 24px;
+    }
 }
 
 $colors: (
+    'dark-pink': (
+        'inverted': true,
+        'color': #333,
+        'contrast': #ddd,
+        'accent': #ff71f3
+    ),
+    'light-lime': (
+        'inverted': false,
+        'color': #f0f0f0,
+        'contrast': #333333,
+        'accent': #9eff71
+    ),
     'orange': (
         'color': #f7a354,
         'contrast': #333333
@@ -32,13 +70,15 @@ $colors: (
 :root {
     @include setMultipleColors($colors);
 
-    @include setColorScheme('pink', #ff71f3, #333333);
+    @include setColorScheme($name: 'pink', $color: #ff71f3, $contrast: #333333);
+    @include setColorScheme($name: 'lime', $color: #9eff71);
 }
 
 @each $color_name, $color_values in $colors {
     @include createTheme($color_name);
 
     @include createTheme('pink');
+    @include createTheme('lime');
 }
 
 // body {
