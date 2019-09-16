@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "peerDependencies": {
     "@angular/common": "^8.1.0",
-    "@angular/core": "^8.1.0"
+    "@angular/core": "^8.1.0",
+    "@devyr/mdl2-ui-icons": "^1.0.2"
   }
 }

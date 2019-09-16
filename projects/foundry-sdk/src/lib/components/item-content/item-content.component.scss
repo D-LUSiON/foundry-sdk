@@ -1,8 +1,16 @@
-
+::ng-deep {
+    :root {
+        --item-content-border-width: 1px;
+        --item-content-border-style: solid;
+        --item-content-border-color: var(--color-contrast-tint);
+        --item-content-background-color: var(--color-shade);
+        --item-content-padding: calc(var(--padding) / 2);
+    }
+}
 
 :host-context(fnd-item-content) {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    padding: var(--padding);
+    padding: var(--item-content-padding);
 }

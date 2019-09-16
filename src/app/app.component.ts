@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationElement } from 'foundry-sdk';
+import { NavigationElement, Tab } from 'foundry-sdk';
 
 @Component({
     selector: 'fnd-root',
@@ -12,7 +12,8 @@ export class AppComponent {
         ['shortcuts', 'shortcuts', 'shortcuts'],
         ['sidebar', 'tabs', 'aside'],
         ['sidebar', 'main', 'aside'],
-        ['sidebar', 'more', 'aside'],
+        ['sidebar2', 'main', 'aside'],
+        ['sidebar2', 'more', 'aside'],
         ['footer', 'footer', 'footer']
     ];
 
@@ -21,7 +22,8 @@ export class AppComponent {
     rows = [
         '30px',
         '30px',
-        '30px',
+        '22px',
+        '1fr',
         '1fr',
         '230px',
         '22px'
@@ -80,6 +82,12 @@ export class AppComponent {
             title: 'About',
             icon: ''
         },
+    ];
+
+    tabs: Tab[] = [
+        new Tab({ title: 'Tab 1'}),
+        new Tab({ title: 'Tab 2'}),
+        new Tab({ title: 'Tab 3'}),
     ];
 
     constructor() {

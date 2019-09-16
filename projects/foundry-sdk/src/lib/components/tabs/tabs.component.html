@@ -1,1 +1,7 @@
-<p>tabs works!</p>
+<fnd-tab-item
+    *ngFor="let tab of tabs; let idx = index"
+    [tab]="tab"
+    [active]="idx === active_tab_idx"
+    (tabClicked)="activateTab(idx)"
+    (tabRemoved)="removeTab(idx)"
+></fnd-tab-item>

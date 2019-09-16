@@ -22,7 +22,7 @@ import { WorkspaceWrapperComponent } from '../workspace-wrapper/workspace-wrappe
 export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit {
 
     @Input() role: string;
-    @Input() border: string;
+    @Input() borders: string[] = [];
     @Input() resize_zone: string;
     @Input() theme: string = '';
     @Input() overflow_x: 'visible' | 'auto' | 'none' | 'scroll' | 'initial' | 'clip' | 'overlay' = 'clip';
@@ -90,10 +90,11 @@ export class WorkspaceZoneComponent implements OnInit, OnChanges, AfterViewInit 
 
     ngOnInit() {
         this._renderer.setStyle(this._el.nativeElement, 'grid-area', this.role);
-        if (this.border) {
-            this._renderer.setStyle(this._el.nativeElement, `border-${this.border}-width`, '1px');
-        }
+        this.borders.forEach(border => {
+            this._renderer.setStyle(this._el.nativeElement, `border-${border}-width`, '1px');
+        });
 
+        // FIXME: When zone has two resizers (bottom and right for example), the bottom one is bugged
         this.resizers.forEach(resizer => {
             if (!this.all_resizers[resizer]) {
                 const resizer_el: HTMLDivElement = this._renderer.createElement('div');

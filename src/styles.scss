@@ -30,9 +30,12 @@ body {
         margin-bottom: 14px;
     }
 
-    .mat-icon svg {
-        height: 24px;
-        width: 24px;
+    .mat-icon {
+        &,
+        svg {
+            height: var(--font-size);
+            width: var(--font-size);
+        }
     }
 }
 
@@ -74,7 +77,8 @@ $colors: (
     @include setColorScheme($name: 'lime', $color: #9eff71);
 }
 
-@each $color_name, $color_values in $colors {
+@each $color_name,
+$color_values in $colors {
     @include createTheme($color_name);
 
     @include createTheme('pink');

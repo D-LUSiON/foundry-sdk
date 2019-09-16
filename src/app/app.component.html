@@ -6,7 +6,7 @@
 >
     <fnd-workspace-zone
         role="header"
-        border="bottom"
+        [borders]="['bottom']"
         direction="row"
         theme="blue"
     >
@@ -14,30 +14,78 @@
     </fnd-workspace-zone>
     <fnd-workspace-zone
         role="shortcuts"
-        border="bottom"
+        [borders]="['bottom']"
         direction="row"
     >
         Shortcut icons row
     </fnd-workspace-zone>
     <fnd-workspace-zone
         role="sidebar"
-        border="right"
-        [ngStyle]="{ 'padding': '10px' }"
-        [resizers]="['right']"
+        [borders]="['right']"
+        [resizers]="['right', 'bottom']"
     >
-        <h1>Sidebar</h1>
+        <h1 [ngStyle]="{ 'padding': '10px' }">Sidebar</h1>
         <fnd-accordion>
-            <fnd-accordion-item>
+            <fnd-accordion-item
+                heading="Accordion item 1"
+                [opened]="true"
+            >
+                <ng-template #icon_opened>
+                    <mat-icon class="icon-small" svgIcon="chevron-down"></mat-icon>
+                </ng-template>
+                <ng-template #icon_closed>
+                    <mat-icon class="icon-small" svgIcon="chevron-right"></mat-icon>
+                </ng-template>
                 <fnd-tree></fnd-tree>
+            </fnd-accordion-item>
+            <fnd-accordion-item
+                heading="Accordion item 2"
+            >
+                <ng-template #icon_opened>
+                    <mat-icon svgIcon="chevron-down-box"></mat-icon>
+                </ng-template>
+                <ng-template #icon_closed>
+                    <mat-icon svgIcon="chevron-right-box-outline"></mat-icon>
+                </ng-template>
+                Some other stuff here
+            </fnd-accordion-item>
+            <fnd-accordion-item
+                heading="Accordion item 3"
+            >
+                <ng-template #icon_opened>
+                    <mat-icon svgIcon="chevron-down-circle"></mat-icon>
+                </ng-template>
+                <ng-template #icon_closed>
+                    <mat-icon svgIcon="chevron-right-circle-outline"></mat-icon>
+                </ng-template>
+                Some other stuff here
+            </fnd-accordion-item>
+            <fnd-accordion-item
+                heading="Accordion item 4"
+            >
+                <ng-template #icon_opened>
+                    <mat-icon svgIcon="unfold-less-horizontal"></mat-icon>
+                </ng-template>
+                <ng-template #icon_closed>
+                    <mat-icon svgIcon="unfold-more-horizontal"></mat-icon>
+                </ng-template>
+                Some other stuff here
             </fnd-accordion-item>
         </fnd-accordion>
     </fnd-workspace-zone>
     <fnd-workspace-zone
+        role="sidebar2"
+        [borders]="['top', 'right']"
+        direction="column"
+        [resizers]="['right']"
+    ></fnd-workspace-zone>
+    <fnd-workspace-zone
         role="tabs"
-        border="bottom"
+        [borders]="['bottom']"
         direction="row"
+        style="overflow: visible"
     >
-        <fnd-tabs></fnd-tabs>
+        <fnd-tabs [tabs]="tabs"></fnd-tabs>
     </fnd-workspace-zone>
     <fnd-workspace-zone
         role="main"
@@ -53,7 +101,7 @@
     </fnd-workspace-zone>
     <fnd-workspace-zone
         role="more"
-        border="top"
+        [borders]="['top']"
         max-height="150px"
         overflow-x="auto"
         overflow-y="auto"
@@ -80,7 +128,7 @@
     ></fnd-workspace-zone>
     <fnd-workspace-zone
         role="aside"
-        border="left"
+        [borders]="['left']"
         [resizers]="['left']"
     >
         <fnd-list>
@@ -115,7 +163,7 @@
     </fnd-workspace-zone>
     <fnd-workspace-zone
         role="footer"
-        border="top"
+        [borders]="['top']"
         direction="row"
         theme="blue"
     >Footer</fnd-workspace-zone>

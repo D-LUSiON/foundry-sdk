@@ -1,2 +1,26 @@
-<p>accordion-item works!</p>
-<ng-content></ng-content>
+<div class="fnd-accordion-item-heading" [ngClass]="{ 'fnd-opened': opened }" (click)="toggleOpened()">
+    <div class="fnd-item-icon" *ngIf="icon_position === 'front'">
+        <ng-container *ngIf="opened && !icon_opened">
+            <ng-container *ngTemplateOutlet="icon_opened_tpl"></ng-container>
+        </ng-container>
+        <ng-container *ngIf="!opened && !icon_closed">
+            <ng-container *ngTemplateOutlet="icon_closed_tpl"></ng-container>
+        </ng-container>
+        <span [ngClass]="icon_opened" *ngIf="icon_opened && opened && !icon_opened_tpl"></span>
+        <span [ngClass]="icon_closed" *ngIf="icon_closed && !opened && !icon_closed_tpl"></span>
+    </div>
+    <div class="fnd-item-title">{{ heading }}</div>
+    <div class="fnd-item-icon" *ngIf="icon_position === 'back'">
+            <ng-container *ngIf="opened && !icon_opened">
+                <ng-container *ngTemplateOutlet="icon_opened_tpl"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="!opened && !icon_closed">
+                <ng-container *ngTemplateOutlet="icon_closed_tpl"></ng-container>
+            </ng-container>
+            <span [ngClass]="icon_opened" *ngIf="icon_opened && opened && !icon_opened_tpl"></span>
+            <span [ngClass]="icon_closed" *ngIf="icon_closed && !opened && !icon_closed_tpl"></span>
+        </div>
+</div>
+<div class="fnd-accordion-item-content">
+    <ng-content></ng-content>
+</div>

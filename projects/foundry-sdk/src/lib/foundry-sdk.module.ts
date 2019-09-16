@@ -10,6 +10,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { ItemContentComponent } from './components/item-content/item-content.component';
 import { IconComponent } from './components/icon/icon.component';
+import { CommonModule } from '@angular/common';
+import { TabItemComponent } from './components/tab-item/tab-item.component';
 
 
 @NgModule({
@@ -25,8 +27,10 @@ import { IconComponent } from './components/icon/icon.component';
         NavigationComponent,
         TabsComponent,
         TreeComponent,
+        TabItemComponent,
     ],
     imports: [
+        CommonModule
     ],
     exports: [
         ItemContentComponent,

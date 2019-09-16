@@ -4,6 +4,7 @@
         --item-border-style: solid;
         --item-border-color: var(--color-contrast-tint);
         --item-background-color: var(--color-shade);
+        --item-padding: calc(var(--padding) / 2);
     }
 }
 
@@ -15,7 +16,7 @@
     border-bottom-width: var(--item-border-width);
     border-bottom-style: var(--item-border-style);
     border-bottom-color: var(--item-border-color);
-    padding: var(--padding);
+    padding: var(--item-padding);
     background-color: var(--item-background-color);
     color: var(--item-color);
 

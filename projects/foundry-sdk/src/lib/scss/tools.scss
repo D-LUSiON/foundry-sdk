@@ -143,8 +143,11 @@
     --border-style: solid;
     --margin: 10px;
     --padding: 10px;
-    --font-size: 10pt;
+    --font-size-smaller: 10px;
+    --font-size: 12px;
+    --font-size-larger: 14px;
     --font-family: monospace;
+    --line-height: 1.1em;
 
     --item-border-width: 1px;
     --item-border-style: solid;
@@ -166,5 +169,8 @@
 
         background-color: var(--color);
         color: var(--color-contrast);
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+        line-height: var(--line-height);
     }
 }
